@@ -14,9 +14,7 @@ export const MainView = () => {
 
 
   useEffect(() => {
-    if (!token) {
-      return;
-    }
+    if (!token) return;
 
     fetch("https://nicks-movie-app-8dea9f746e67.herokuapp.com/movies", {
       headers: { Authorization: `Bearer ${token}` },
@@ -57,17 +55,12 @@ export const MainView = () => {
   }
 
   if (movies.length === 0) {
-    return (
-      <>
-        <button onClick={() => { setUser(null); setToken(null); localStorage.clear(); }}>Logout</button>
-        <div>The list is empty!</div>  
-      </>
-    );
+    return <div>The list is empty!</div>;
   }
 
   return (
     <div>
-      <button onClick={() => { setUser(null); setToken(null); }}>Logout</button> 
+      <button onClick={() => { setUser(null); setToken(null); localStorage.clear(); }}>Logout</button> 
       {movies.map((movie) => (
         <MovieCard
           key={movie.id}

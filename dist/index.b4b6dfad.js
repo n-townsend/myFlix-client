@@ -27294,7 +27294,7 @@ const MainView = ()=>{
         columnNumber: 5
     }, undefined);
 };
-_s(MainView, "WeWgAF5NBhsH/zsVpI0THxNbAWU=");
+_s(MainView, "erZwsaACjEszGYtk3NSL9h6Luhk=");
 _c = MainView;
 var _c;
 $RefreshReg$(_c, "MainView");
@@ -41081,7 +41081,7 @@ const LoginView = ({ onLoggedIn })=>{
             username: username,
             password: password
         };
-        fetch("https://nicks-movie-app-8dea9f746e67.herokuapp.com/login?", {
+        fetch("https://nicks-movie-app-8dea9f746e67.herokuapp.com/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

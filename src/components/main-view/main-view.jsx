@@ -9,8 +9,8 @@ import "../../index.scss"
 export const MainView = () => {
   const storedUser = JSON.parse(localStorage.getItem("user"));
   const storedToken = localStorage.getItem("token");
-  const [user, setUser] = useState(storedUser? storedUser: null);
-  const [token, setToken] = useState(storedToken? storedToken: null);
+  const [user, setUser] = useState(storedUser ? storedUser : null);
+  const [token, setToken] = useState(storedToken ? storedToken : null);
   const [movie, setMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
 
@@ -33,10 +33,10 @@ export const MainView = () => {
         });
         setMovies(moviesFromApi);
       })
-        .catch((error) => {
-            console.log("error", error);
-        });
-}, [token],);
+      .catch((error) => {
+        console.log("error", error);
+      });
+  }, [token],);
 
   if (selectedMovie) {
     return (
@@ -45,7 +45,7 @@ export const MainView = () => {
   }
 
   return (
-    <Row className="justify-content-md-center"> 
+    <Row className="justify-content-md-center">
       {!user ? (
         <Col md={5}>
           <LoginView onLoggedIn={(user) => setUser(user)} />
@@ -55,9 +55,9 @@ export const MainView = () => {
       ) : selectedMovie ? (
         <Col md={8}>
           <MovieView
-          movie={selectedMovie} 
-          onBackClick={() => setSelectedMovie(null)} 
-        />
+            movie={selectedMovie}
+            onBackClick={() => setSelectedMovie(null)}
+          />
         </Col>
       ) : movie.length === 0 ? (
         <div>The list is empty!</div>
@@ -76,5 +76,5 @@ export const MainView = () => {
         </>
       )}
     </Row>
-);
+  );
 };

@@ -15,7 +15,7 @@ export const LoginView = ({ onLoggedIn }) => {
       password: password
     };
 
-    fetch("https://nicks-movie-app-8dea9f746e67.herokuapp.com/login?", {
+    fetch("https://nicks-movie-app-8dea9f746e67.herokuapp.com/login", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(data)
@@ -45,7 +45,7 @@ export const LoginView = ({ onLoggedIn }) => {
                     <h2 style={{ color: "#530f0f" }}>Login to Movie<span className="text-black"></span>Box</h2>
                     <Form.Group controlId="loginUsername">
                         <Form.Label className="visually-hidden">username</Form.Label>
-                        <Form.Control className={"bg-light mt-5"}
+                        <Form.Control className="bg-light mt-5"
                             type="text"
                             size="lg"
                             placeholder="Username"
@@ -56,7 +56,7 @@ export const LoginView = ({ onLoggedIn }) => {
                     </Form.Group>
                     <Form.Group controlId="loginPassword">
                         <Form.Label className="visually-hidden">password</Form.Label>
-                        <Form.Control className={"bg-light  mt-3"}
+                        <Form.Control className="bg-light  mt-3"
                             type="password"
                             size="lg"
                             value={password}

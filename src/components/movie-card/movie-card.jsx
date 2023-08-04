@@ -9,7 +9,7 @@ export const MovieCard = ({ movie, onMovieClick }) => {
         onMovieClick(movie);
       }}
       >
-      <CardImg src={movie.image} width={150} height={180} alt="ImgMovie"></CardImg>
+      <CardImg src={movie.image} width={150} height={400} alt="ImgMovie"></CardImg>
       <Card.Body>
       <Card.Title>{movie.title}</Card.Title>
       </Card.Body>

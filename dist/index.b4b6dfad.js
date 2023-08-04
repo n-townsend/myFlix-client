@@ -40733,7 +40733,7 @@ const MovieCard = ({ movie, onMovieClick })=>{
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.CardImg), {
                 src: movie.image,
                 width: 150,
-                height: 180,
+                height: 400,
                 alt: "ImgMovie"
             }, void 0, false, {
                 fileName: "src/components/movie-card/movie-card.jsx",

@@ -1,9 +1,14 @@
-$color: steelblue;
-$primary: steelblue;
-$body-bg: SlateBlue;
+@import "variables.scss";
 
-@import '~bootstrap/scss/bootstrap.scss';
+$color: steelblue;
+
+@import "../node_modules/bootstrap/scss/bootstrap";
 
 .my-flix {
-  color: $color;
+    color: $color;
+}
+
+.bg-main {
+    background-color: #408ec6;
+    min-height: 100vh;
 }

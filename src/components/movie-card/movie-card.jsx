@@ -1,37 +1,28 @@
-import PropTypes from "prop-types";
-import Button from "react-bootstrap/Button";
-import Card from "react-bootstrap/Card";
-import { Link } from "react-router-dom";
+/* This Component will represent a single movie in the movie list from MainView
+so we can render as many MovieCards as needed. */
 
-export const MovieCard = ({ movie }) => {
+import proptypes from "prop-types";
+
+export const MovieCard = ({ movieData, onMovieClick }) => {
   return (
-    <Card className="h-100 bg-secondary text-white">
-      <Card.Img variant="top" src={movie.image} />
-      <Card.Body>
-        <Card.Title>{movie.title}</Card.Title>
-        <Card.Text>Director: {movie.director.name}</Card.Text>
-        <Card.Text>Description: {movie.description}</Card.Text>
-        <Link to={`/movies/${encodeURIComponent(movie.id)}`}>
-          <Button variant="link">
-            Open
-          </Button>
-        </Link>
-      </Card.Body>
-    </Card>
+    <div
+      onClick={() => {
+        onMovieClick(movieData);
+      }}
+    >
+      {movieData.title}
+    </div >
   );
 };
 
+/* Defined prop constraints for the MovieCard */
 MovieCard.propTypes = {
-  movie: PropTypes.shape({
-  title: PropTypes.string,
-  description: PropTypes.string,
-  director: PropTypes.shape({
-    name: PropTypes.string,
-    bio: PropTypes.string
-  }),
-  genre: PropTypes.shape({
-    name: PropTypes.string,
-    description: PropTypes.string
-  }),
-  }).isRequired
+  movieData: proptypes.shape({
+    title: proptypes.string.isRequired,
+    image: proptypes.string.isRequired,
+    description: proptypes.string.isRequired,
+    director: proptypes.string.isRequired,
+    genre: proptypes.string.isRequired
+  }).isRequired,
+  onMovieClick: proptypes.func.isRequired
 };

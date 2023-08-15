@@ -1,5 +1,6 @@
-$color: steelblue;
+/* Colors Used: #6d201c, #e1c19b, #a4a4cc, #2f3d53 */
+$primary: #fff;
+$body-bg: #2f3d53;
+$font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
-.my-flix {
-  color: $color;
-}
+@import '~bootstrap/scss/bootstrap.scss';

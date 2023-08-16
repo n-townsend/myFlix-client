@@ -1,144 +1,160 @@
-import { useState, useEffect } from "react";
-import Button from "react-bootstrap/Button";
-import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
-import Modal from "react-bootstrap/Modal";
-import { MovieCard } from "../movie-card/movie-card";
-import { ModalHeader } from "react-bootstrap";
+import { useState } from 'react';
+import { Card, Col, Form, Button } from 'react-bootstrap';
+import { MovieCard } from '../movie-card/movie-card';
 
-export const ProfileView = ({ user, token, setUser, movies, onLogout }) => {
-  const [username, setUsername] = useState(user.username);
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState(user.email);
-  const [birthday, setBirthday] = useState(user.birthday);
-  const [showModal, setShowModal] = useState(false);
-  const favoriteMovies = movies.filter((movie) => {
-    return user.favoriteMovies.includes(movie.id)
-  });
+export const ProfileView = ({
+  user,
+  token,
+  movies,
+  onLoggedOut,
+  updateUser,
+}) => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
 
-  const handleShowModal = () => setShowModal(true);
-  const handleCloseModal = () => setShowModal(false);
+  let favoriteMovies = movies.filter((movie) =>
+    user.favoriteMovies?.includes(movie.id)
+  )
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
     const data = {
-      username: username,
-      password: password,
-      email: email,
-      birthday: birthday
+      username,
+      password,
+      email,
     };
 
-    fetch(`https://nicks-movie-app-8dea9f746e67.herokuapp.com/users/${user.Username}`, {
-      method: "PUT",
+    fetch(`https://nicks-movie-app-8dea9f746e67.herokuapp.com/users/${user.username}`, {
+      method: 'PUT',
       body: JSON.stringify(data),
       headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      }
-    }).then((response) => {
-      if (response.ok) {
-        return response.json()
-      } else {
-        alert("Update failed.")
-      }
-    }).then((data) => {
-      localStorage.setItem("user", JSON.stringify(data));
-      setUser(data);
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
     })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          alert('Changing user information failed');
+          return false;
+        }
+      })
+      .then((user) => {
+        if (user) {
+          alert('Successfully changed user information');
+          updateUser(user);
+        }
+      })
+      .catch((e) => {
+        alert(e);
+      });
   };
 
-  const handleDeleteUser = () => {
-    fetch(`https://nicks-movie-app-8dea9f746e67.herokuapp.com/users/${user.Username}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }).then((response) => {
-      if (response.ok) {
-        onLogout();
-      } else {
-        alert("something went wrong.")
-      }
+  const deleteAccount = () => {
+    fetch(`https://nicks-movie-app-8dea9f746e67.herokuapp.com/users/${user.username}`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` },
     })
-  }
+      .then((response) => {
+        if (response.ok) {
+          alert('Your account has been deleted!');
+          onLoggedOut();
+        } else {
+          alert('Could not delete account');
+        }
+      })
+      .catch((e) => {
+        alert(e);
+      });
+  };
 
   return (
     <>
-      <h1 className="text-white">Profile</h1>
-      <Row>
-        <Col className="text-white">
-          <h3 className="text-white">Your profile details</h3>
-          <div>Username: {user.username}</div>
-          <div>Email: {user.email}</div>
+      <Col md={6}>
+        <Card className="mt-2 mb-3">
+          <Card.Body style={{ backgroundColor: 'white' }}>
+            <Card.Title>Your info</Card.Title>
+            <p>Username: {user.username}</p>
+            <p>Email: {user.email}</p>
+          </Card.Body>
+        </Card>
+        <Button
+          variant="danger"
+          onClick={() => {
+            if (confirm('Are you sure?')) {
+              deleteAccount();
+            }
+          }}
+        >
+          Delete user account
+        </Button>
+      </Col>
+      <Col md={6}>
+        <Card className="mt-2 mb-3">
+          <Card.Body style={{ backgroundColor: 'white' }}>
+            <Card.Title>Update your info</Card.Title>
+            <Form onSubmit={handleSubmit}>
+              <Form.Group>
+                <Form.Label>Username:</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                  minLength="5"
+                  className="bg-light"
+                />
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Password:</Form.Label>
+                <Form.Control
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  minLength="8"
+                  className="bg-light"
+                />
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Email:</Form.Label>
+                <Form.Control
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="bg-light"
+                />
+              </Form.Group>
+              <Button
+                style={{
+                  backgroundColor: '#e50914',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '5px',
+                  padding: '8px 18px',
+                }}
+                variant="primary"
+                className="mt-3"
+                type="submit"
+              >
+                Submit
+              </Button>
+            </Form>
+          </Card.Body>
+        </Card>
+      </Col>
+      <Col md={12}>
+        <h3 className="mt-3 mb-3 text-light">Your favorite movies:</h3>
+      </Col>
+      {favoriteMovies?.map((movie) => (
+        <Col className="mb-4" key={movie.id} xl={2} lg={3} md={4} xs={6}>
+          <MovieCard movie={movie} />
         </Col>
-        <Col>
-          <h3 className="text-white">Update your profile information here.</h3>
-          <Form onSubmit={handleSubmit} className="text-white">
-            <Form.Group controlId="formUsername">
-              <Form.Label>Username:</Form.Label>
-              <Form.Control
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-                minLength="5"
-              />
-            </Form.Group>
-            <Form.Group controlId="formPassword">
-              <Form.Label>Password:</Form.Label>
-              <Form.Control
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                minLength="5"
-              />
-            </Form.Group>
-            <Form.Group controlId="formEmail">
-              <Form.Label>Email:</Form.Label>
-              <Form.Control
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </Form.Group>
-            <Form.Group controlId="formBirthday">
-              <Form.Label>Birthday:</Form.Label>
-              <Form.Control
-                type="date"
-                value={birthday}
-                onChange={(e) => setBirthday(e.target.value)}
-                required
-              />
-            </Form.Group>
-            <Button variant="primary" type="submit">Save changes</Button>
-          </Form>
-        </Col>
-      </Row>
-      <Row className="text-white">
-        <h3>Favorite movies:</h3>
-        {favoriteMovies.map((movie) => (
-          <Col className="mb-5" key={movie.id} md={4}>
-            <MovieCard movie={movie}></MovieCard>
-          </Col>
-        ))}
-      </Row>
-      <Button variant="primary" onClick={handleShowModal}>
-        Delete my account
-      </Button>
-      <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Delete account</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Are you sure you want to delete your account permanantly?</Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" onClick={handleDeleteUser}>Yes</Button>
-          <Button variant="secondary" onClick={handleCloseModal}>No</Button>
-        </Modal.Footer>
-      </Modal>
+      ))}
     </>
-  )
-}
+  );
+};

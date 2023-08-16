@@ -27556,9 +27556,9 @@ const MovieView = ({ movies, user, token, updateUser })=>{
     const { movieId } = (0, _reactRouter.useParams)();
     const movie = movies.find((m)=>m.id === movieId);
     const similarMovies = movies.filter((movie)=>movie.genre === movie.genre ? true : false);
-    const [isFavorite, setIsFavorite] = (0, _react.useState)(user.favoriteMovies.includes(movie.id));
+    const [isFavorite, setIsFavorite] = (0, _react.useState)(user.favoriteMovies?.includes(movie.id));
     (0, _react.useEffect)(()=>{
-        setIsFavorite(user.favoriteMovies.includes(movie.id));
+        setIsFavorite(user.favoriteMovies?.includes(movie.id));
         window.scrollTo(0, 0);
     }, [
         movieId
@@ -27569,17 +27569,17 @@ const MovieView = ({ movies, user, token, updateUser })=>{
             headers: {
                 Authorization: `Bearer ${token}`
             }
-        }).then((user)=>{
-            if (user) {
-                alert("Successfully added to favorites");
-                setIsFavorite(true);
-                updateUser(user);
-            }
         }).then((response)=>{
             if (response.ok) return response.json();
             else {
                 alert("Failed");
                 return false;
+            }
+        }).then((user)=>{
+            if (user) {
+                alert("Successfully added to favorites");
+                setIsFavorite(true);
+                updateUser(user);
             }
         }).catch((e)=>{
             alert(e);
@@ -27591,17 +27591,17 @@ const MovieView = ({ movies, user, token, updateUser })=>{
             headers: {
                 Authorization: `Bearer ${token}`
             }
-        }).then((user)=>{
-            if (user) {
-                alert("Successfully deleted from favorites");
-                setIsFavorite(false);
-                updateUser(user);
-            }
         }).then((response)=>{
             if (response.ok) return response.json();
             else {
                 alert("Failed");
                 return false;
+            }
+        }).then((user)=>{
+            if (user) {
+                alert("Successfully deleted from favorites");
+                setIsFavorite(false);
+                updateUser(user);
             }
         }).catch((e)=>{
             alert(e);
@@ -27757,7 +27757,7 @@ const MovieView = ({ movies, user, token, updateUser })=>{
         ]
     }, void 0, true);
 };
-_s(MovieView, "2HyNuTzzcYm+CdrihCdgzMsuCAU=", false, function() {
+_s(MovieView, "HLUN92FycdLgtZAGaHHDQ7GROzk=", false, function() {
     return [
         (0, _reactRouter.useParams)
     ];

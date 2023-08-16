@@ -58,7 +58,7 @@ export const NavigationBar = ({ user, onLoggedOut, onSearch }) => {
           {user && (
             <Form className="d-flex">
               <Form.Control
-                style={{ color: 'white' }}
+                style={{ backgroundColor: 'white' }}
                 type="search"
                 placeholder="Search"
                 className="md-2"

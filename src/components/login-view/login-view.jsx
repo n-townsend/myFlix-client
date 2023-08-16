@@ -35,7 +35,7 @@ export const LoginView = ({ onLoggedIn }) => {
 
   return (
     <Card className="mt-2 mb-3">
-      <Card.Body>
+      <Card.Body style={{ backgroundColor: 'white' }}>
         <Card.Title>Log in</Card.Title>
         <Form onSubmit={handleSubmit}>
           <Form.Group>

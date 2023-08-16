@@ -33,7 +33,7 @@ export const SignupView = () => {
 
   return (
     <Card className="mt-2 mb-3">
-      <Card.Body>
+      <Card.Body style={{ backgroundColor: 'white' }}>
         <Card.Title>Sign up</Card.Title>
         <Form onSubmit={handleSubmit}>
           <Form.Group>

@@ -12,11 +12,10 @@ export const ProfileView = ({
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
-  const [birthday, setBirthday] = useState('');
 
   let favoriteMovies = movies.filter((movie) =>
-    user.favoriteMovies.includes(movie.id)
-  );
+    user.favoriteMovies?.includes(movie.id)
+  )
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -25,7 +24,6 @@ export const ProfileView = ({
       username,
       password,
       email,
-      birthday,
     };
 
     fetch(`https://nicks-movie-app-8dea9f746e67.herokuapp.com/users/${user.username}`, {
@@ -56,14 +54,13 @@ export const ProfileView = ({
   };
 
   const deleteAccount = () => {
-    console.log('done');
     fetch(`https://nicks-movie-app-8dea9f746e67.herokuapp.com/users/${user.username}`, {
       method: 'DELETE',
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((response) => {
         if (response.ok) {
-          alert('Your account has been deleted. Good Bye!');
+          alert('Your account has been deleted!');
           onLoggedOut();
         } else {
           alert('Could not delete account');
@@ -82,7 +79,6 @@ export const ProfileView = ({
             <Card.Title>Your info</Card.Title>
             <p>Username: {user.username}</p>
             <p>Email: {user.email}</p>
-            <p>Birthday: {user.birthday.slice(0, 10)}</p>
           </Card.Body>
         </Card>
         <Button
@@ -133,16 +129,6 @@ export const ProfileView = ({
                   className="bg-light"
                 />
               </Form.Group>
-              <Form.Group>
-                <Form.Label>Birthday:</Form.Label>
-                <Form.Control
-                  type="date"
-                  value={birthday}
-                  onChange={(e) => setBirthday(e.target.value)}
-                  required
-                  className="bg-light"
-                />
-              </Form.Group>
               <Button
                 style={{
                   backgroundColor: '#e50914',
@@ -164,7 +150,7 @@ export const ProfileView = ({
       <Col md={12}>
         <h3 className="mt-3 mb-3 text-light">Your favorite movies:</h3>
       </Col>
-      {favoriteMovies.map((movie) => (
+      {favoriteMovies?.map((movie) => (
         <Col className="mb-4" key={movie.id} xl={2} lg={3} md={4} xs={6}>
           <MovieCard movie={movie} />
         </Col>

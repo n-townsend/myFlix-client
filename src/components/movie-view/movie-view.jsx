@@ -29,19 +29,14 @@ export const MovieView = ({ movies, user, token, updateUser }) => {
         headers: { Authorization: `Bearer ${token}` },
       }
     )
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          alert('Failed');
-          return false;
-        }
-      })
       .then((user) => {
         if (user) {
           alert('Successfully added to favorites');
           setIsFavorite(true);
           updateUser(user);
+        } else {
+          alert('Failed');
+          return false;
         }
       })
       .catch((e) => {
@@ -57,19 +52,14 @@ export const MovieView = ({ movies, user, token, updateUser }) => {
         headers: { Authorization: `Bearer ${token}` },
       }
     )
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          alert('Failed');
-          return false;
-        }
-      })
       .then((user) => {
         if (user) {
           alert('Successfully deleted from favorites');
           setIsFavorite(false);
           updateUser(user);
+        } else {
+          alert('Failed');
+          return false;
         }
       })
       .catch((e) => {
